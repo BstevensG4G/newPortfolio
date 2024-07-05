@@ -1,34 +1,28 @@
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import axios from 'axios'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
-function App() {
-  const [array, setArray] = useState([])
+import SiteTemplate from './sitetemplate'
+import HomePage from './pages/Home'
+import AboutPage from './pages/About'
+import PortfolioPage from './pages/Portfolio'
+import BlogPage from './pages/Blog'
+import ContactPage from './pages/Contact'
 
-  const fetchAPI = async () => {
-    const response = await axios.get(
-      "http://localhost:8080/api/users"
-    )
-    console.log(response.data.users)
-    setArray(response.data.users)
-  }
+export interface IAppProps {}
 
-  useEffect(() => {
-    fetchAPI()
-  }, [])
-
-  return (
-    <div className="card">
-      {array.map((user, index) => (
-        <div key={index}>
-          <span>{user}</span>
-          <br />
-        </div>
-      ))}
-    </div>
-  )
-}
+const App: React.FunctionComponent<IAppProps> = () => {
+    return (
+      <Router>
+        <Routes>
+          <Route path="/" element={<SiteTemplate />}>
+            <Route index element={<HomePage />} />
+            <Route path="about" element={<AboutPage />} />
+            <Route path="portfolio" element={<PortfolioPage />} />
+            <Route path="blog" element={<BlogPage />} />
+            <Route path="contact" element={<ContactPage />} />                        
+          </Route>          
+        </Routes>
+      </Router>
+    );
+};
 
 export default App
